@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){
     }
     else{
         $staffusername = $_POST['staffusername'];
-        if(!preg_match('/^[a-z|A-Z0-9{11}_]@+*$/', $staffusername)){
+        if(!preg_match('/^[a-zA-Z0-9_]+$/', $staffusername)){
             echo 'Staff user name must be letter, number and underscore only';
         }
     }
@@ -47,7 +47,7 @@ if(isset($_POST['submit'])){
     }
     else{
         $password = $_POST['password'];
-        if(!preg_match('/^[a-z|A-Z0-9.]@+*$/', $password)){
+        if(!preg_match('/^[a-zA-Z0-9]+$/', $password)){
             echo 'Password must be letter, number and characters ';
         }
     }

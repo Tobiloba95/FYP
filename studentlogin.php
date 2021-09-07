@@ -5,7 +5,7 @@ if(isset($_POST['submit'])){
     }
     else{
         $matricno = $_POST['matricno'];
-        if(!preg_match('/^[a-zA-Z|0-9{11}.]@+*$/', $matricno)){
+        if(!preg_match('/^[a-zA-Z0-9\/]+$/', $matricno)){
             echo 'Matric number must be letter, number and slash ';
         }
     }
@@ -14,7 +14,7 @@ if(isset($_POST['submit'])){
     }
     else{
         $password = $_POST['password'];
-        if(!preg_match('/^[a-z|A-Z0-9.]@+*$/', $password)){
+        if(!preg_match('/^[\w.]+$/', $password)){
             echo 'Password must be letter, number and characters ';
         }
     }
