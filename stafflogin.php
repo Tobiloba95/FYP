@@ -1,23 +1,24 @@
 <?php
+$staffusername = $password = '';
+$empty = array('staffusername'=>'', 'password'=>'');
+$error = array('staffusername'=>'', 'password'=>'');
 if(isset($_POST['submit'])){
-    //echo htmlspecialchars($_POST['staffusername']);
-    //echo htmlspecialchars($_POST['password']);
     if (empty($_POST['staffusername'])){
-        echo "Staff Username Required <br />";
+        $empty['staffusername']="Staff Username Required <br />";
     }
     else{
         $staffusername = $_POST['staffusername'];
         if(!preg_match('/^[a-zA-Z0-9{11}_]+$/', $staffusername)){
-            echo 'Staff user name must be letter, number and underscore only';
+            $error['staffusername']='Staff user name must be letter, number and underscore only';
         }
     }
     if (empty ($_POST['password'])){
-        echo "password Required <br />";
+        $empty['password']= "password Required <br />";
     }
     else{
         $password = $_POST['password'];
-        if(!preg_match('/^[a-zA-Z0-9.]+$/', $password)){
-            echo 'Password must be letter, number and characters ';
+        if(!preg_match('/^[\w.]+$/', $password)){
+            $error['password']='Password must be letter, number and characters ';
         }
     }
 }
@@ -33,9 +34,13 @@ if(isset($_POST['submit'])){
         <h4 class="center">Staff Login</h4>
         <form action="stafflogin.php" class="white" method="POST">
             <label for="">Staff Username: </label>
-            <input type="text" name="staffusername">
+            <input type="text" name="staffusername" value="<?php echo htmlspecialchars($staffusername);?>">
+            <div class="red-text"><?php echo $empty[staffusername];?></div>
+            <div class="red-text"><?php echo $error[staffusername];?></div>
             <label for="">Password: </label>
-            <input type="password" name="password">
+            <input type="password" name="password" value="<?php echo htmlspecialchars($password);?>">
+            <div class="red-text"><?php echo $empty[password];?></div>
+            <div class="red-text"><?php echo $error[password];?></div>
             <div class="right">
                 <input type="submit" name="submit" value="submit" class="btn brand z-depth-0">
             </div>
