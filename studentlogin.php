@@ -21,6 +21,9 @@ if(isset($_POST['submit'])){
             $error['password']='Password must be letter, number and characters ';
         }
     }
+    if(!array_filter($error)){
+        header('Location: studentinfo.php');
+    }
     
 }
 
