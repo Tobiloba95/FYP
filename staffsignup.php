@@ -1,4 +1,6 @@
 <?php
+include('configuration/connect.php');
+session_start();
 $staffname = $email = $department = $staffusername = $password = "";
 $empty = array('staffname'=>'','email'=>'', 'department'=>'', 'staffusername'=>'','password'=>'');
 $error = array('staffname'=>'','email'=>'', 'department'=>'', 'staffusername'=>'','password'=>'');
@@ -44,14 +46,36 @@ if(isset($_POST['submit'])){
     }
     else{
         $password = $_POST['password'];
-        if(!preg_match('/^[\w.]+$/', $password)){
+        if(!preg_match('/^[\w.*]+$/', $password)){
             $error['password']='Password must be letter, number and characters ';
         }
     }
-    if(!array_filter($error)){
-        header('Location: stafflogin.php');
+
+    if(!array_filter($error)){  
+        $staffname = mysqli_real_escape_string($conn, $_POST['staffname']);
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $department = mysqli_real_escape_string($conn, $_POST['department']);
+        $staffusername = mysqli_real_escape_string($conn, $_POST['staffusername']);
+        $password = mysqli_real_escape_string($conn, $_POST['password']);
+        // create sql
+        $sql = "INSERT INTO staffsignup(staffname, email, department, staffusername, password) VALUES ('$staffname','$email', '$department', '$staffusername', '$password')";
+        //save to db and check
+        if(mysqli_query($conn, $sql)){
+            //success
+            $_SESSION['success'] = "";
+            header('Location: stafflogin.php');
+        }
+        else{
+            //error
+            $_SESSION['status'] = "Staff not added";
+            echo 'query error: '. mysqli_error($conn);
+        }
     }
 }
+
+
+
+
 
 ?>
 
