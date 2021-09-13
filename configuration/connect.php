@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "Tobi1234loba*";
 $dbname = "e-clearance";
 
 // Create connection

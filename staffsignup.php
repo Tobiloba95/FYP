@@ -1,6 +1,5 @@
 <?php
 include('configuration/connect.php');
-session_start();
 $staffname = $email = $department = $staffusername = $password = "";
 $empty = array('staffname'=>'','email'=>'', 'department'=>'', 'staffusername'=>'','password'=>'');
 $error = array('staffname'=>'','email'=>'', 'department'=>'', 'staffusername'=>'','password'=>'');
@@ -62,12 +61,10 @@ if(isset($_POST['submit'])){
         //save to db and check
         if(mysqli_query($conn, $sql)){
             //success
-            $_SESSION['success'] = "";
             header('Location: stafflogin.php');
         }
         else{
             //error
-            $_SESSION['status'] = "Staff not added";
             echo 'query error: '. mysqli_error($conn);
         }
     }

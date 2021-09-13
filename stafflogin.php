@@ -1,6 +1,5 @@
 <?php
 include('configuration/connect.php');
-session_start();
 $department = $password = '';
 $empty = array('department'=>'', 'password'=>'');
 $error = array('department'=>'', 'password'=>'');
@@ -11,7 +10,7 @@ if(isset($_POST['submit'])){
     else{
         $department = $_POST['department'];
         if(!preg_match('/^[a-zA-Z\s]+$/', $department)){
-            $error['department']='Department name must be letter, number';
+            $error['department']='Department name must be letter';
         }
     }
     if (empty ($_POST['password'])){
@@ -23,84 +22,32 @@ if(isset($_POST['submit'])){
             $error['password']='Password must be letter, number and characters ';
         }
     }
+    
+    $department = $_POST['department'];
+    $password = $_POST['password'];
+    $sql = new mysqli($department, $password);
+    if (mysqli_query($conn, $sql)) {
+        echo "successful";
+    }
+    else{
+        echo "unsuccessful";
+    }
+     
+    
 
     
 }
-if (isset($_POST['department']) && isset($_POST['password'])) {
 
-    function validate($data){
-
-       $data = trim($data);
-
-       $data = stripslashes($data);
-
-       $data = htmlspecialchars($data);
-
-       return $data;
-
-    }
-
-    $department = validate($_POST['department']);
-
-    $password = validate($_POST['password']);
-    if (empty($department)) {
-
-        echo "Input Department";
-
-        exit();
-
-    }else if(empty($password)){
-
-        echo "Input password";
-
-        exit();
-
-    }
-    else{
-
-        $sql = "SELECT * FROM student WHERE department='$department' AND password='$password'";
-
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) === 1) {
-
-            $row = mysqli_fetch_assoc($result);
-
-            if ($row['department'] === $department && $row['password'] === $password) {
-                header('Location: biology.php');               
-
-            }
-            else{
-
-                echo 'query error: '. mysqli_error($conn);
-
-                
-
-            }
-
-        }
-
-    }
-
-}
 ?>
-
-
 <!DOCTYPE html>
 <html>
    
     <?php include('template/header.php');?>
     <section class="container grey-text">
         <h4 class="center">Staff Login</h4>
-        <?php 
-        if (isset($_SESSION['success']) && ($_SESSION['success']) != ''){
-            echo '<h2>'.$_SESSION['success'].'</h2>';
-            unset($_SESSION['success']);
-        }
-        ?>
-        <form action="staffdet.php" class="white" method="POST">
+        <form action="stafflogin.php" class="white" method="POST">
             <label for="">Department: </label>
-            <input type="text" name="department" value="<?php echo htmlspecialchars($staffusername);?>">
+            <input type="text" name="department" value="<?php echo htmlspecialchars($department);?>">
             <div class="red-text"><?php echo $empty[department];?></div>
             <div class="red-text"><?php echo $error[department];?></div>
             <label for="">Password: </label>
